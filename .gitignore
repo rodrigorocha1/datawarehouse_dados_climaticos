@@ -5,7 +5,10 @@ __pycache__/
 
 # C extensions
 *.so
-
+postgres-db-volume/
+sql_data/
+*.xml
+*.cfg
 # Distribution / packaging
 .Python
 build/
