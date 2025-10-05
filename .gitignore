@@ -9,6 +9,9 @@ postgres-db-volume/
 sql_data/
 *.xml
 *.cfg
+
+*#
+
 # Distribution / packaging
 .Python
 build/
