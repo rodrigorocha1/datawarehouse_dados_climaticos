@@ -419,12 +419,14 @@ services:
       - "8081:8081"
     command: -c "
       apt-get update && \
-      apt-get install -y gcc g++ libkrb5-dev openssh-server && \
+      apt-get install -y gcc g++ libkrb5-dev unixodbc-dev python3-pip openssh-server && \
+      pip install --upgrade pip && \
+      pip install dbt-sqlserver && \
       mkdir /var/run/sshd && \
       echo 'root:root' | chpasswd && \
       sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
       sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
-      ssh-keygen -A  && \
+      ssh-keygen -A && \
       /usr/sbin/sshd && \
       sleep infinity
       "
