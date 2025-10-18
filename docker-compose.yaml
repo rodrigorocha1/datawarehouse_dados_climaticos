@@ -141,8 +141,8 @@ services:
       test: [ "CMD", "curl", "--fail", "http://localhost:8080/api/v2/version" ]
       interval: 30s
       timeout: 10s
-      retries: 10   # aumentar de 5 para 10
-      start_period: 60s  # aumentar de 30s para 60s
+      retries: 20
+      start_period: 120s  # <- aumente de 60 para 120 segundos
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
