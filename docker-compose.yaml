@@ -387,8 +387,7 @@ services:
         condition: service_healthy
       airflow-scheduler:
         condition: service_healthy
-      mssql:
-        condition: service_healthy
+
 volumes:
   postgres-db-volume:
   dados_sql_server:
