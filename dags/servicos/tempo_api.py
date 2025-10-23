@@ -23,3 +23,5 @@ class TempoApi(ITempoAPI):
         data = requests.get(url=self.__url_api, params=params)
         req = data.json()
         return req
+
+
