@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Any
+from typing import Dict, Any, Tuple, Union
 
 
 class IOperacaoBanco(ABC):
 
     @abstractmethod
-    def realizar_operacao_banco(self, consulta: str, parametros: Dict[str, Any]):
+    def realizar_operacao_banco(self, consulta: str, parametros: Union[Dict[str, Any], Tuple]):
         """
         Método para realizar consulta no banco
         :param consulta: realizar consulta
