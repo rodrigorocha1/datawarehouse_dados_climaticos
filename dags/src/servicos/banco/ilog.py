@@ -1,15 +1,9 @@
+import logging
 from abc import ABC, abstractmethod
-from typing import Dict, Any
 
 
-class Ilog(ABC):
+class Ilog(ABC, logging.Handler):
 
     @abstractmethod
-    def log_info_sql(
-            self,
-            msg: str,
-            tabela: str, colunas: str,
-            parametros: Dict[str, Any],
-            **kwags,
-    ):
+    def emit(self, record: logging.LogRecord):
         pass
