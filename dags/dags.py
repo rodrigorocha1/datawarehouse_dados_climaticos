@@ -14,3 +14,10 @@ with DAG(
     inicio_dag = EmptyOperator(
         task_id='inicio_dag'
     )
+
+    fim_dag = EmptyOperator(
+        task_id='fim_dag'
+    )
+
+
+    inicio_dag >> fim_dag

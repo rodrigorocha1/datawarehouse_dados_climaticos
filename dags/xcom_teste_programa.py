@@ -1,9 +1,10 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
-from airflow.utils.state import State
 from airflow.models import XCom
+from airflow.utils.session import provide_session
 
+# Argumentos padrão
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -22,14 +23,40 @@ def pull_xcom(**kwargs):
     mensagem = ti.xcom_pull(key='mensagem', task_ids='push_task')
     print(f"Valor recebido do XCom: {mensagem}")
 
-def clear_xcom(**kwargs):
-    """Task que limpa os XComs"""
+@provide_session
+def clear_xcom(session=None, **kwargs):
+    """Task que limpa todos os XComs da DAG run atual"""
     ti = kwargs['ti']
-    session = kwargs['session']
-    # Apaga todos os XComs da DAG run atual
-    XCom.clear(dag_id=ti.dag_id, run_id=ti.run_id, session=session)
-    print("XComs apagados!")
+    dag_id = ti.dag_id
+    run_id = ti.run_id
 
+    # Contar XComs antes
+    before_count = session.query(XCom).filter(
+        XCom.dag_id == dag_id,
+        XCom.run_id == run_id
+    ).count()
+
+    # Apagar todos os XComs dessa DAG Run
+    deleted = session.query(XCom).filter(
+        XCom.dag_id == dag_id,
+        XCom.run_id == run_id
+    ).delete(synchronize_session=False)
+
+    session.commit()
+
+    # Contar XComs depois
+    after_count = session.query(XCom).filter(
+        XCom.dag_id == dag_id,
+        XCom.run_id == run_id
+    ).count()
+
+    print(
+        f"[CLEAR XCOM] DAG '{dag_id}', Run '{run_id}' — "
+        f"Removidos {deleted} XCom(s). "
+        f"Antes: {before_count}, Depois: {after_count}"
+    )
+
+# Definição da DAG
 with DAG(
     dag_id='teste_xcom_dag',
     default_args=default_args,
@@ -37,26 +64,22 @@ with DAG(
     schedule_interval=None,
     start_date=days_ago(1),
     catchup=False,
-    tags=['exemplo'],
+    tags=['exemplo', 'xcom'],
 ) as dag:
 
     push_task = PythonOperator(
         task_id='push_task',
         python_callable=push_xcom,
-        provide_context=True
     )
 
     pull_task = PythonOperator(
         task_id='pull_task',
         python_callable=pull_xcom,
-        provide_context=True
     )
 
     clear_task = PythonOperator(
         task_id='clear_task',
         python_callable=clear_xcom,
-        provide_context=True
     )
 
-    # Definindo a ordem de execução
     push_task >> pull_task >> clear_task

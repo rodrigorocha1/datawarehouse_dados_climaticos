@@ -1,3 +1,5 @@
+import inspect
+import os
 from typing import Dict
 
 import requests
@@ -17,7 +19,7 @@ class TempoApi(ITempoAPI):
         self.__langs = Config.LANG_OPEN_API
         self.__log_banco = IOperacaoBanco
 
-    def buscar_dados_tempo(self, cidade: str) -> Dict:
+    def buscar_dados_tempo(self, cidade: str, **kwargs) -> Dict:
         params = {
             'appid': self.__key_api,
             'units': self.__units,
@@ -26,13 +28,46 @@ class TempoApi(ITempoAPI):
         }
         try:
             data = requests.get(url=self.__url_api, params=params)
+            data.raise_for_status()
             req = data.json()
+
+            frame = inspect.currentframe()
+            erro = {
+                'consulta': None,
+                'Nome': os.path.basename(__file__),
+                'NomeArquivo': os.path.basename(__file__),
+                'Funcao': self.__class__.__name__ + "." + (frame.f_code.co_name if frame else ''),
+                'NumeroLinha': frame.f_lineno if frame else None,
+                'url': self.__url_api,
+                'Codigo': data.status_code,
+                'JsonRetorno': None,
+                'Mensagem': 'Sucesso ao Conectar na API',
+                'NIVEL_LOG': 'INFO'
+            }
+
+            kwargs['ti'].xcom_push(key='mensagem_log', value=erro)
 
             return req
 
         except HTTPError as http_error:
-            pass
-        return {}
+            exc_frame = http_error.__traceback__.tb_frame if http_error.__traceback__ else None
+            erro = {
+                'consulta': None,
+                'Nome': os.path.basename(__file__),
+                'NomeArquivo': os.path.basename(__file__),
+                'Funcao': self.__class__.__name__ + "." + (exc_frame.f_code.co_name if exc_frame else ''),
+                'NumeroLinha': exc_frame.f_lineno if exc_frame else None,
+                'url': http_error.response.request.url if http_error.response else None,
+                'Codigo': http_error.response.status_code if http_error.response else None,
+                'JsonRetorno': None,
+                'Mensagem': f'Erro HTTP ao buscar dados do tempo para {cidade}',
+                'NIVEL_LOG': 'ERROR'
+            }
+
+            raise RuntimeError(f"Falha ao buscar dados do tempo para {cidade}") from http_error
+
+
+
 
 
 if __name__ == '__main__':
