@@ -5,9 +5,9 @@ from typing import Dict
 import requests
 from requests.exceptions import HTTPError
 
-from dags.src.config.config import Config
-from dags.src.servicos.api_tempo.i_tempo_api import ITempoAPI
-from dags.src.servicos.banco.i_operaco_banco import IOperacaoBanco
+from src.config.config import Config
+from src.servicos.api_tempo.i_tempo_api import ITempoAPI
+from src.servicos.banco.i_operaco_banco import IOperacaoBanco
 
 
 class TempoApi(ITempoAPI):
@@ -38,9 +38,9 @@ class TempoApi(ITempoAPI):
                 'NomeArquivo': os.path.basename(__file__),
                 'Funcao': self.__class__.__name__ + "." + (frame.f_code.co_name if frame else ''),
                 'NumeroLinha': frame.f_lineno if frame else None,
-                'url': self.__url_api,
+                'url': self.__url_api + data.request.path_url,
                 'Codigo': data.status_code,
-                'JsonRetorno': None,
+                'JsonRetorno': req,
                 'Mensagem': 'Sucesso ao Conectar na API',
                 'NIVEL_LOG': 'INFO'
             }
