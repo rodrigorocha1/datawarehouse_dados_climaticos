@@ -15,7 +15,14 @@ class EtlTempo:
             'PRESSAO': dados['main']['pressure'],
             'HUMIDADE': dados['main']['humidity'],
             'VELOCIDADE_VENTO': dados['wind']['speed'],
-            'ANGULO_VENDO': dados['wind']['deg'],
+            'ANGULO_VENTO': dados['wind']['deg'],
         }
-        # print(valores)
-        # self.__operacao_banco.realizar_operacao_banco()
+        tabela = 'STG_DADOS_TEMPO'
+        placeholders = ", ".join(
+            [f"%({coluna})s" for coluna in valores.keys()])
+        sql_banco = f"""
+                                    INSERT INTO {tabela}
+                                    VALUES ({placeholders})
+                                """
+
+        self.__operacao_banco.realizar_operacao_banco(consulta=sql_banco, parametros=valores)
