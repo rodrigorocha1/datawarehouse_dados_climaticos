@@ -1,0 +1,20 @@
+CREATE TABLE dbo.LogOperacoesBanco (
+    IdLog INT IDENTITY(1,1) PRIMARY KEY,
+
+    Consulta NVARCHAR(MAX)  NULL,
+    Nome VARCHAR(200),
+    NomeArquivo VARCHAR(200),
+    Funcao VARCHAR(200),
+    NumeroLinha SMALLINT,
+    url NVARCHAR(MAX) NULL,
+    Codigo INT NULL,
+    JsonRetorno NVARCHAR(MAX) NULL,
+    NIVEL_LOG NVARCHAR(100) NULL,
+    DataInsercao DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT CHK_NIVEL_LOG CHECK (NIVEL_LOG IN ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')),
+);
+
+SELECT *
+FROm LogOperacoesBanco
+
+DROP TABLE LogOperacoesBanco;

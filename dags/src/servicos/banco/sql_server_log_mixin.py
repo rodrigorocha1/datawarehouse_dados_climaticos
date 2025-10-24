@@ -13,19 +13,24 @@ class SqlServerLogMixin(Ilog, OperacaoBancoSQLServer):
         super().__init__(id_conexao=self.__mssql_conn_id)
 
     def emit(self, record: logging.LogRecord):
-        mensagem = self.format(record)
+        # Mensagem formatada (opcional, pode ser usada como 'Consulta')
+        consulta = getattr(record, "consulta", None)
         kwargs = getattr(record, "kwargs", {})
+
         url = kwargs.pop('url', None)
-        consulta = kwargs.pop('consulta', None)
         codigo = kwargs.pop('codigo', None)
         json_retorno = kwargs.pop('json_retorno', None)
 
-        parametros = json.dumps(kwargs) if kwargs else None
-        log_level = record.levelname
+        # Colunas adicionais como JSON
+        parametros_adicionais = json.dumps(kwargs) if kwargs else None
+
         sql = """
-            INSERT INTO LogOperacoesBanco values  (%s,%s, %s, %s,%s, %s, %s,%s, %s, %s, %s)
+        INSERT INTO dbo.LogOperacoesBanco
+        (Consulta, Nome, NomeArquivo, Funcao, NumeroLinha, url, Codigo, JsonRetorno, NIVEL_LOG)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
-        params = {
+
+        params = (
             consulta,
             record.name,
             record.filename,
@@ -33,8 +38,8 @@ class SqlServerLogMixin(Ilog, OperacaoBancoSQLServer):
             record.lineno,
             url,
             codigo,
-            str(json_retorno),
-            record.levelname,
+            str(json_retorno) if json_retorno else None,
+            record.levelname
+        )
 
-        }
         self.realizar_operacao_banco(consulta=sql, parametros=params)

@@ -5,7 +5,7 @@ from typing import Dict, Any, Tuple, Union
 class IOperacaoBanco(ABC):
 
     @abstractmethod
-    def realizar_operacao_banco(self, consulta: str, parametros: Union[Dict[str, Any], Tuple]):
+    def realizar_operacao_banco(self, consulta: str, parametros: Union[Dict[str, Any], Tuple[Any, ...]]):
         """
         Método para realizar consulta no banco
         :param consulta: realizar consulta
