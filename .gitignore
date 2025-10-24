@@ -11,6 +11,7 @@ sql_data/
 *.cfg
 
 *#
+logs/*
 
 # Distribution / packaging
 .Python

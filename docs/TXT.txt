@@ -5,3 +5,6 @@ https://chatgpt.com/c/68f3f9e1-5a24-832a-9af1-14775b65d687
 
 
 https://github.com/rodrigorocha1/criacao_datalake_youtube/blob/main/dags/dag_youtube.py
+
+
+https://chatgpt.com/c/68fadffe-8204-8329-8775-31630ca7ca92 -> inserir varios registros com jinja
