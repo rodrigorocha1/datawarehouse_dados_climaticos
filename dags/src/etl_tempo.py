@@ -1,8 +1,9 @@
 from .servicos.api_tempo.i_tempo_api import ITempoAPI
 from .servicos.banco.i_operaco_banco import IOperacaoBanco
 
+
 class EtlTempo:
-    def __init__(self, servico_api: ITempoAPI, operacao_banco = IOperacaoBanco):
+    def __init__(self, servico_api: ITempoAPI, operacao_banco: IOperacaoBanco):
         self.__servico_api = servico_api
         self.__operacao_banco = operacao_banco
 
@@ -21,8 +22,8 @@ class EtlTempo:
         placeholders = ", ".join(
             [f"%({coluna})s" for coluna in valores.keys()])
         sql_banco = f"""
-                                    INSERT INTO {tabela}
-                                    VALUES ({placeholders})
-                                """
+                INSERT INTO {tabela}
+                VALUES ({placeholders})
+        """
 
         self.__operacao_banco.realizar_operacao_banco(consulta=sql_banco, parametros=valores)
