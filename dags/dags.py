@@ -98,4 +98,4 @@ with DAG(
         )
 
 
-    inicio_dag >> tg_mun >> fim_dag
+    inicio_dag >> tg_con >> tg_mun >> fim_dag
