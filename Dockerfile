@@ -14,7 +14,8 @@ RUN python -m pip install --upgrade pip
 
 # Instala cada pacote separadamente para facilitar debug e reduzir chances de cancelamento
 RUN pip install --no-cache-dir apache-airflow-providers-microsoft-mssql[common.sql] \
-    && pip install --no-cache-dir dbt-sqlserver
+    && pip install --no-cache-dir dbt-sqlserver \
+    && pip install Unidecode
 
 # Volta para usuário airflow (por padrão já é airflow)
 USER airflow
