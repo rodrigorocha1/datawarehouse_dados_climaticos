@@ -1,12 +1,12 @@
 from typing import Any
-
+from  unidecode import unidecode
 import pendulum
 from airflow import DAG
 from airflow.models import XCom
 from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import PythonOperator
 from airflow.utils.session import provide_session
-
+from airflow.utils.task_group import TaskGroup
 
 def processo_etl_stg(cidade: str, **kwargs: Any):
     from src.etl_tempo import EtlTempo
@@ -16,9 +16,10 @@ def processo_etl_stg(cidade: str, **kwargs: Any):
     etl_tempo = EtlTempo(servico_api=TempoApi(),operacao_banco=OperacaoBancoSQLServer(id_conexao='stg_tempo'))
     etl_tempo.gravar_dados_tabela_temporaria(cidade=cidade, **kwargs)
 
-
+municipios = ['Ribeirão Preto, BR', 'Cravinhos, BR']
 with DAG(
         dag_id="example_python_operator",
+
         schedule=None,
         start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
         catchup=False,
@@ -27,14 +28,16 @@ with DAG(
     inicio_dag = EmptyOperator(
         task_id='inicio_dag'
     )
-
-    tempo_operator = PythonOperator(
-        task_id='tempo_operator',
-        python_callable=processo_etl_stg,
-        op_kwargs={
-            'cidade': 'Ribeirão Preto, Br'
-        }
-    )
+    with TaskGroup('task_municipios') as tg2:
+        lista_task_canais = []
+        for municipio in municipios:
+            tempo_operator = PythonOperator(
+                task_id=f'tempo_operator_{unidecode(municipio)}',
+                python_callable=processo_etl_stg,
+                op_kwargs={
+                    'cidade': municipio
+                }
+            )
 
     fim_dag = EmptyOperator(
         task_id='fim_dag'
