@@ -24,27 +24,39 @@ def processo_etl_stg(cidade: str, **kwargs: Any):
 
 
 municipios = ['Ribeirão Preto, BR', 'Cravinhos, BR']
+municipios_tratado = [unidecode(m.lower().replace(',', '_').replace(' ', '_')) for m in municipios]
+
 ID_CONEXAO: Final[List[str]] = [Config.ID_BANCO_LOG, Config.ID_BANCO_DW, Config.ID_BANCO_STG]
 
 
 def registrar_xcom(context):
     """
-    Callback para gravar o resultado de cada task no XCom.
-    Grava tanto sucesso quanto falha.
+    Recebe o contexto da task e insere log na tabela dbo.LogOperacoesBanco
     """
-    ti = context['ti']
-    estado = ti.state  # success, failed, etc.
-    task_id = ti.task_id
+    task_instance = context['task_instance']
+    task_id = task_instance.task_id
+    dag_id = context['dag'].dag_id
+    execution_date = context['execution_date']
+    try:
+        status = 'SUCCESS' if context['task_instance'].state == 'success' else 'FAILURE'
+        codigo = 1 if status == 'SUCCESS' else 0
+        mensagem = f"Tarefa {task_id} executada com status {status}"
 
-    # Cria valor para XCom
-    resultado = {
-        'task_id': task_id,
-        'estado': estado,
-        'sucesso': estado == 'success'
-    }
+        insert_sql = f"""
+        INSERT INTO dbo.LogOperacoesBanco 
+        (Consulta, Nome, NomeArquivo, Funcao, NumeroLinha, url, Codigo, JsonRetorno, Mensagem, NIVEL_LOG)
+        VALUES 
+        (NULL, '{task_id}', '{dag_id}', 'MsSqlOperator', 0, NULL, {codigo}, NULL, '{mensagem}', 'INFO')
+        """
 
-    # Grava XCom individual, chave = task_id
-    ti.xcom_push(key='resultado_conexao', value=resultado)
+        insert_task = MsSqlOperator(
+            task_id=f'log_{task_id}',
+            mssql_conn_id=Config.ID_BANCO_LOG,
+            sql=insert_sql
+        )
+        insert_task.execute(context)
+    except Exception as e:
+        print(f"Erro ao registrar log: {e}")
 
 
 with DAG(
@@ -72,11 +84,6 @@ with DAG(
             )
             lista_task_conexoes.append(task)
 
-    id_task_erro = EmptyOperator(
-        task_id='id_task_erro',
-        trigger_rule=TriggerRule.ONE_FAILED
-    )
-
     with TaskGroup('task_municipios') as tg_mun:
         lista_task_canais = []
         for municipio in municipios:
@@ -93,6 +100,79 @@ with DAG(
         task_id='fim_dag',
         trigger_rule=TriggerRule.ONE_SUCCESS
 
+    )
+
+    inserir_logs_task_sucesso = MsSqlOperator(
+        task_id='inserir_logs_sucesso',
+        mssql_conn_id=Config.ID_BANCO_LOG,
+        trigger_rule=TriggerRule.ONE_SUCCESS,
+        params={'municipios_tratado': municipios_tratado},
+        sql="""
+           {% for municipio_tratado in params.municipios_tratado %}
+               {% set log = ti.xcom_pull(key='mensagem_log_sucesso_' + municipio_tratado) %}
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   {{ "'" + log['Consulta'] + "'" if log and log['Consulta'] else 'NULL' }},
+                   '{{ log["Nome"] if log else "NULL" }}',
+                   '{{ log["NomeArquivo"] if log else "NULL" }}',
+                   '{{ log["Funcao"] if log else "NULL" }}',
+                   {{ log["NumeroLinha"] if log and log["NumeroLinha"] is not none else 'NULL' }},
+                   {{ "'" + log['url'] + "'" if log and log['url'] else 'NULL' }},
+                   {{ log["Codigo"] if log and log["Codigo"] is not none else 'NULL' }},
+                   {{ "'" + (log["JsonRetorno"] | string) + "'" if log and log["JsonRetorno"] else 'NULL' }},
+                   '{{ log["Mensagem"] if log else "NULL" }}',
+                   '{{ log["NIVEL_LOG"] if log else "NULL" }}'
+               );
+           {% endfor %}
+           """,
+        dag=dag)
+
+    inserir_logs_task_erros = MsSqlOperator(
+        task_id='inserir_logs_erros',
+        mssql_conn_id=Config.ID_BANCO_LOG,
+        trigger_rule=TriggerRule.ONE_FAILED,
+        params={'municipios_tratado': municipios_tratado},
+        sql="""
+                   {% for municipio_tratado in params.municipios_tratado %}
+                       {% set log = ti.xcom_pull(key='mensagem_log_erro_' + municipio_tratado) %}
+                       INSERT INTO dbo.LogOperacoesBanco (
+                           Consulta,
+                           Nome,
+                           NomeArquivo,
+                           Funcao,
+                           NumeroLinha,
+                           url,
+                           Codigo,
+                           JsonRetorno,
+                           Mensagem,
+                           NIVEL_LOG
+                       )
+                       VALUES (
+                           {{ "'" + log['Consulta'] + "'" if log and log['Consulta'] else 'NULL' }},
+                           '{{ log["Nome"] if log else "NULL" }}',
+                           '{{ log["NomeArquivo"] if log else "NULL" }}',
+                           '{{ log["Funcao"] if log else "NULL" }}',
+                           {{ log["NumeroLinha"] if log and log["NumeroLinha"] is not none else 'NULL' }},
+                           {{ "'" + log['url'] + "'" if log and log['url'] else 'NULL' }},
+                           {{ log["Codigo"] if log and log["Codigo"] is not none else 'NULL' }},
+                           {{ "'" + (log["JsonRetorno"] | string) + "'" if log and log["JsonRetorno"] else 'NULL' }},
+                           '{{ log["Mensagem"] if log else "NULL" }}',
+                           '{{ log["NIVEL_LOG"] if log else "NULL" }}'
+                       );
+                   {% endfor %}
+                   """,
+        dag=dag
     )
 
 
@@ -130,4 +210,6 @@ with DAG(
         )
 
 
-    inicio_dag >> tg_con >> [tg_mun, id_task_erro] >> fim_dag
+    inicio_dag >> tg_con >> tg_mun >> [inserir_logs_task_sucesso, inserir_logs_task_erros]
+    inserir_logs_task_sucesso >> fim_dag
+    inserir_logs_task_erros >> fim_dag

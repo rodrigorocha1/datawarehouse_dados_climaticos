@@ -1,13 +1,14 @@
 import inspect
+import json
 import os
 from typing import Dict
 
 import requests
 from requests.exceptions import HTTPError
-
 from src.config.config import Config
 from src.servicos.api_tempo.i_tempo_api import ITempoAPI
 from src.servicos.banco.i_operaco_banco import IOperacaoBanco
+from unidecode import unidecode
 
 
 class TempoApi(ITempoAPI):
@@ -30,29 +31,33 @@ class TempoApi(ITempoAPI):
             data = requests.get(url=self.__url_api, params=params)
             data.raise_for_status()
             req = data.json()
+            json_retorno_str = json.dumps(req, ensure_ascii=False)
 
             frame = inspect.currentframe()
+
             erro = {
-                'consulta': None,
+                'Consulta': None,
                 'Nome': os.path.basename(__file__),
                 'NomeArquivo': os.path.basename(__file__),
                 'Funcao': self.__class__.__name__ + "." + (frame.f_code.co_name if frame else ''),
                 'NumeroLinha': frame.f_lineno if frame else None,
                 'url': self.__url_api + data.request.path_url,
                 'Codigo': data.status_code,
-                'JsonRetorno': req,
+                'JsonRetorno': json_retorno_str,
                 'Mensagem': 'Sucesso ao Conectar na API',
                 'NIVEL_LOG': 'INFO'
             }
 
-            kwargs['ti'].xcom_push(key='mensagem_log', value=erro)
+            kwargs['ti'].xcom_push(
+                key=f'mensagem_log_sucesso_{unidecode(cidade.lower().replace(",", "_", ).replace(" ", "_"))}',
+                value=erro)
 
             return req
 
         except HTTPError as http_error:
             exc_frame = http_error.__traceback__.tb_frame if http_error.__traceback__ else None
             erro = {
-                'consulta': None,
+                'Consulta': None,
                 'Nome': os.path.basename(__file__),
                 'NomeArquivo': os.path.basename(__file__),
                 'Funcao': self.__class__.__name__ + "." + (exc_frame.f_code.co_name if exc_frame else ''),
@@ -64,10 +69,10 @@ class TempoApi(ITempoAPI):
                 'NIVEL_LOG': 'ERROR'
             }
 
+            kwargs['ti'].xcom_push(
+                key=f'mensagem_log_erro_{unidecode(cidade.lower().replace(",", "_", ).replace(" ", "_"))}', value=erro)
+
             raise RuntimeError(f"Falha ao buscar dados do tempo para {cidade}") from http_error
-
-
-
 
 
 if __name__ == '__main__':
