@@ -1,24 +1,32 @@
-from typing import Any
-from  unidecode import unidecode
+from typing import Any, Final, List
+
 import pendulum
 from airflow import DAG
 from airflow.models import XCom
 from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import PythonOperator
+from airflow.providers.microsoft.mssql.operators.mssql import MsSqlOperator
 from airflow.utils.session import provide_session
 from airflow.utils.task_group import TaskGroup
+from unidecode import unidecode
+
+from src.config.config import Config
+
 
 def processo_etl_stg(cidade: str, **kwargs: Any):
     from src.etl_tempo import EtlTempo
     from src.servicos.api_tempo.tempo_api import TempoApi
     from src.servicos.banco.operacao_banco_sqlserver import OperacaoBancoSQLServer
 
-    etl_tempo = EtlTempo(servico_api=TempoApi(),operacao_banco=OperacaoBancoSQLServer(id_conexao='stg_tempo'))
+    etl_tempo = EtlTempo(servico_api=TempoApi(), operacao_banco=OperacaoBancoSQLServer(id_conexao='stg_tempo'))
     etl_tempo.gravar_dados_tabela_temporaria(cidade=cidade, **kwargs)
 
+
 municipios = ['Ribeirão Preto, BR', 'Cravinhos, BR']
+ID_CONEXAO: Final[List[str]] = [Config.ID_BANCO_LOG, Config.ID_BANCO_DW, Config.ID_BANCO_STG]
+
 with DAG(
-        dag_id="example_python_operator",
+        dag_id="dag_monitoramento_tempo_dw",
 
         schedule=None,
         start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
@@ -28,16 +36,28 @@ with DAG(
     inicio_dag = EmptyOperator(
         task_id='inicio_dag'
     )
-    with TaskGroup('task_municipios') as tg2:
+
+    with TaskGroup('task_testar_conexoes') as tg_con:
+        lista_task_conexoes = []
+        for id_conexao in ID_CONEXAO:
+            testar_conexao = MsSqlOperator(
+                task_id=f'testar_conexao_sqlserver_{id_conexao.lower()}',
+                mssql_conn_id=id_conexao,
+                sql="SELECT 1 AS resultado;",
+            )
+            lista_task_conexoes.append(testar_conexao)
+
+    with TaskGroup('task_municipios') as tg_mun:
         lista_task_canais = []
         for municipio in municipios:
             tempo_operator = PythonOperator(
-                task_id=f'tempo_operator_{unidecode(municipio)}',
+                task_id=f'tempo_operator_{unidecode(municipio.lower().replace(",", "_", ).replace(" ", "_"))}',
                 python_callable=processo_etl_stg,
                 op_kwargs={
                     'cidade': municipio
                 }
             )
+            lista_task_canais.append(tempo_operator)
 
     fim_dag = EmptyOperator(
         task_id='fim_dag'
@@ -78,4 +98,4 @@ with DAG(
         )
 
 
-    inicio_dag >> tempo_operator >> fim_dag
+    inicio_dag >> tg_mun >> fim_dag
