@@ -27,7 +27,6 @@ ID_CONEXAO: Final[List[str]] = [Config.ID_BANCO_LOG, Config.ID_BANCO_DW, Config.
 
 with DAG(
         dag_id="dag_monitoramento_tempo_dw",
-
         schedule=None,
         start_date=pendulum.datetime(2021, 1, 1, tz="UTC"),
         catchup=False,
