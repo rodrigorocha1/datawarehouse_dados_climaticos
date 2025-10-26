@@ -1,0 +1,31 @@
+name: 'dw_tempo_rib_preto'
+version: '1.0.0'
+
+# Profile que contém as conexões STG e DW
+profile: 'dw_tempo_rib_preto'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  dw_tempo_rib_preto:
+
+    # Modelos de STG (staging)
+    stg:
+      +materialized: view
+      +schema: stg           # irá criar objetos no schema STG_DW_TEMPO
+      +database: STG_DW_TEMPO      # opcional, se quiser apontar outro DB
+
+    # Modelos de DW final
+    core:
+      +materialized: table
+      +schema: dw            # irá criar objetos no schema DW_TEMPO
+      +database: DW_TEMPO      # opcional, se quiser apontar outro DB

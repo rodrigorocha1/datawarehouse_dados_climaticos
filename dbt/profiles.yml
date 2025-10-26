@@ -1,0 +1,17 @@
+dw_tempo_rib_preto:
+  target: dev
+  outputs:
+    dev:
+      type: sqlserver
+      driver: 'ODBC Driver 18 for SQL Server'
+      server: 172.40.0.21
+      port: 1433
+      database: LOG_DW          # banco único para STG e DW
+      schema: dbo               # schema padrão (dbt será sobrescrito pelo +schema no projeto)
+      user: sa
+      password: YourStrongP@ssw0rd!
+      encrypt: true
+      trust_cert: true
+      retries: 1
+      login_timeout: 30
+      query_timeout: 0
