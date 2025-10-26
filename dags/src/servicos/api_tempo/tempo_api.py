@@ -45,7 +45,7 @@ class TempoApi(ITempoAPI):
                 'Codigo': data.status_code,
                 'JsonRetorno': json_retorno_str,
                 'Mensagem': 'Sucesso ao Conectar na API',
-                'NIVEL_LOG': 'INFO'
+                'NIVEL_LOG': 'INFO'.strip()
             }
 
             kwargs['ti'].xcom_push(

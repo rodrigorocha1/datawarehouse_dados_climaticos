@@ -23,7 +23,13 @@ def processo_etl_stg(cidade: str, **kwargs: Any):
     etl_tempo.gravar_dados_tabela_temporaria(cidade=cidade, **kwargs)
 
 
-municipios = ['Ribeirão Preto, BR', 'Cravinhos, BR']
+municipios = [
+    'Ribeirão Preto, BR', 'Cravinhos, BR', 'Altinópolis, BR', 'Barrinha, BR',
+    'Batatais, BR', 'Cajuru, BR', 'Dumont, BR', 'Guatapará, BR', 'Jaboticabal, BR',
+    'Jardinópolis, BR', 'Luís Antônio, BR', 'Monte Alto, BR', 'Morro Agudo, BR',
+    'Pitangueiras, BR', 'Pradópolis, BR', 'Sertãozinho, BR', 'Sales Oliveira, BR',
+    'São Simão, BR', 'Santa Rita do Passa Quatro, BR'
+]
 municipios_tratado = [unidecode(m.lower().replace(',', '_').replace(' ', '_')) for m in municipios]
 
 ID_CONEXAO: Final[List[str]] = [Config.ID_BANCO_LOG, Config.ID_BANCO_DW, Config.ID_BANCO_STG]
@@ -110,33 +116,36 @@ with DAG(
         sql="""
            {% for municipio_tratado in params.municipios_tratado %}
                {% set log = ti.xcom_pull(key='mensagem_log_sucesso_' + municipio_tratado) %}
-               INSERT INTO dbo.LogOperacoesBanco (
-                   Consulta,
-                   Nome,
-                   NomeArquivo,
-                   Funcao,
-                   NumeroLinha,
-                   url,
-                   Codigo,
-                   JsonRetorno,
-                   Mensagem,
-                   NIVEL_LOG
-               )
-               VALUES (
-                   {{ "'" + log['Consulta'] + "'" if log and log['Consulta'] else 'NULL' }},
-                   '{{ log["Nome"] if log else "NULL" }}',
-                   '{{ log["NomeArquivo"] if log else "NULL" }}',
-                   '{{ log["Funcao"] if log else "NULL" }}',
-                   {{ log["NumeroLinha"] if log and log["NumeroLinha"] is not none else 'NULL' }},
-                   {{ "'" + log['url'] + "'" if log and log['url'] else 'NULL' }},
-                   {{ log["Codigo"] if log and log["Codigo"] is not none else 'NULL' }},
-                   {{ "'" + (log["JsonRetorno"] | string) + "'" if log and log["JsonRetorno"] else 'NULL' }},
-                   '{{ log["Mensagem"] if log else "NULL" }}',
-                   '{{ log["NIVEL_LOG"] if log else "NULL" }}'
-               );
+               {% if log and log['NIVEL_LOG'] %}
+                   INSERT INTO dbo.LogOperacoesBanco (
+                       Consulta,
+                       Nome,
+                       NomeArquivo,
+                       Funcao,
+                       NumeroLinha,
+                       url,
+                       Codigo,
+                       JsonRetorno,
+                       Mensagem,
+                       NIVEL_LOG
+                   )
+                   VALUES (
+                       {{ "'" + log['Consulta'] + "'" if log and log['Consulta'] else 'NULL' }},
+                       '{{ log["Nome"] if log else "NULL" }}',
+                       '{{ log["NomeArquivo"] if log else "NULL" }}',
+                       '{{ log["Funcao"] if log else "NULL" }}',
+                       {{ log["NumeroLinha"] if log and log["NumeroLinha"] is not none else 'NULL' }},
+                       {{ "'" + log['url'] + "'" if log and log['url'] else 'NULL' }},
+                       {{ log["Codigo"] if log and log["Codigo"] is not none else 'NULL' }},
+                       {{ "'" + (log["JsonRetorno"] | string) + "'" if log and log["JsonRetorno"] else 'NULL' }},
+                       '{{ log["Mensagem"] if log else "NULL" }}',
+                       '{{ log["NIVEL_LOG"] }}'
+                   );
+               {% endif %}
            {% endfor %}
-           """,
-        dag=dag)
+        """,
+        dag=dag
+    )
 
     inserir_logs_task_erros = MsSqlOperator(
         task_id='inserir_logs_erros',
@@ -144,34 +153,36 @@ with DAG(
         trigger_rule=TriggerRule.ONE_FAILED,
         params={'municipios_tratado': municipios_tratado},
         sql="""
-                   {% for municipio_tratado in params.municipios_tratado %}
-                       {% set log = ti.xcom_pull(key='mensagem_log_erro_' + municipio_tratado) %}
-                       INSERT INTO dbo.LogOperacoesBanco (
-                           Consulta,
-                           Nome,
-                           NomeArquivo,
-                           Funcao,
-                           NumeroLinha,
-                           url,
-                           Codigo,
-                           JsonRetorno,
-                           Mensagem,
-                           NIVEL_LOG
-                       )
-                       VALUES (
-                           {{ "'" + log['Consulta'] + "'" if log and log['Consulta'] else 'NULL' }},
-                           '{{ log["Nome"] if log else "NULL" }}',
-                           '{{ log["NomeArquivo"] if log else "NULL" }}',
-                           '{{ log["Funcao"] if log else "NULL" }}',
-                           {{ log["NumeroLinha"] if log and log["NumeroLinha"] is not none else 'NULL' }},
-                           {{ "'" + log['url'] + "'" if log and log['url'] else 'NULL' }},
-                           {{ log["Codigo"] if log and log["Codigo"] is not none else 'NULL' }},
-                           {{ "'" + (log["JsonRetorno"] | string) + "'" if log and log["JsonRetorno"] else 'NULL' }},
-                           '{{ log["Mensagem"] if log else "NULL" }}',
-                           '{{ log["NIVEL_LOG"] if log else "NULL" }}'
-                       );
-                   {% endfor %}
-                   """,
+           {% for municipio_tratado in params.municipios_tratado %}
+               {% set log = ti.xcom_pull(key='mensagem_log_erro_' + municipio_tratado) %}
+               {% if log and log['NIVEL_LOG'] %}
+                   INSERT INTO dbo.LogOperacoesBanco (
+                       Consulta,
+                       Nome,
+                       NomeArquivo,
+                       Funcao,
+                       NumeroLinha,
+                       url,
+                       Codigo,
+                       JsonRetorno,
+                       Mensagem,
+                       NIVEL_LOG
+                   )
+                   VALUES (
+                       {{ "'" + log['Consulta'] + "'" if log and log['Consulta'] else 'NULL' }},
+                       '{{ log["Nome"] if log else "NULL" }}',
+                       '{{ log["NomeArquivo"] if log else "NULL" }}',
+                       '{{ log["Funcao"] if log else "NULL" }}',
+                       {{ log["NumeroLinha"] if log and log["NumeroLinha"] is not none else 'NULL' }},
+                       {{ "'" + log['url'] + "'" if log and log['url'] else 'NULL' }},
+                       {{ log["Codigo"] if log and log["Codigo"] is not none else 'NULL' }},
+                       {{ "'" + (log["JsonRetorno"] | string) + "'" if log and log["JsonRetorno"] else 'NULL' }},
+                       '{{ log["Mensagem"] if log else "NULL" }}',
+                       '{{ log["NIVEL_LOG"] }}'
+                   );
+               {% endif %}
+           {% endfor %}
+        """,
         dag=dag
     )
 
