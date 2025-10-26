@@ -1,0 +1,6 @@
+sources:
+  - name: dw_tempo                  # Nome do banco/schema que você quer referenciar
+    schema: dbo                     # Schema físico no SQL Server
+    tables:
+      - name: DIM_CIDADE            # Nome da tabela física
+      - name: STG_DADOS_TEMPO       # Tabela staging também como source

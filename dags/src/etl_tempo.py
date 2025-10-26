@@ -25,7 +25,7 @@ class EtlTempo:
             'HUMIDADE': dados['main']['humidity'],
             'VELOCIDADE_VENTO': dados['wind']['speed'],
             'ANGULO_VENTO': dados['wind']['deg'],
-            'DATA_CONSUTA': dt_br_naive
+            'DATA_CONSULTA': dt_br_naive
         }
         tabela = 'STG_DADOS_TEMPO'
         placeholders = ", ".join(
