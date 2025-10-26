@@ -1,4 +1,4 @@
-# Dockerfile otimizado para Airflow 2.10.4 com pacotes adicionais
+# airflow_sql_server.Dockerfile otimizado para Airflow 2.10.4 com pacotes adicionais
 
 ARG AIRFLOW_IMAGE_NAME=apache/airflow:2.10.4
 FROM ${AIRFLOW_IMAGE_NAME}
