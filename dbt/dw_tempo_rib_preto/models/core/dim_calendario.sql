@@ -1,0 +1,39 @@
+{{ config(
+    materialized='incremental',
+    database='DW_TEMPO',
+
+    alias='DIM_CALENDARIO',
+    unique_key=['DATA_CALENDARIO', 'HORA']
+) }}
+
+WITH calendario_base AS (
+
+    SELECT DISTINCT
+        CAST(DATA_CONSUTA AS DATE) AS DATA_CALENDARIO,
+        CAST(DATA_CONSUTA AS TIME) AS HORA,
+        YEAR(DATA_CONSUTA) AS ANO,
+        MONTH(DATA_CONSUTA) AS MES,
+        DAY(DATA_CONSUTA) AS DIA,
+        DATEPART(QUARTER, DATA_CONSUTA) AS TRIMESTRE,
+        DATEPART(WEEK, DATA_CONSUTA) AS SEMANA_DO_ANO,
+        DATEPART(WEEKDAY, DATA_CONSUTA) AS DIA_DA_SEMANA,
+        DATENAME(MONTH, DATA_CONSUTA) AS NOME_MES,
+        DATENAME(WEEKDAY, DATA_CONSUTA) AS NOME_DIA_SEMANA,
+        FORMAT(DATA_CONSUTA, 'yyyy-MM') AS ANO_MES,
+        CASE
+            WHEN CAST(DATA_CONSUTA AS TIME) BETWEEN '06:00:00' AND '11:59:59' THEN 'MANHÃ'
+            WHEN CAST(DATA_CONSUTA AS TIME) BETWEEN '12:00:00' AND '17:59:59' THEN 'TARDE'
+            ELSE 'NOITE'
+        END AS TURNO
+    FROM {{ source('stg_dw_tempo', 'STG_DADOS_TEMPO') }}
+)
+
+SELECT *
+FROM calendario_base
+
+{% if is_incremental() %}
+    WHERE (CAST(DATA_CONSUTA AS DATE), CAST(DATA_CONSUTA AS TIME))
+          NOT IN (
+              SELECT DATA_CALENDARIO, HORA FROM {{ this }}
+          )
+{% endif %}
