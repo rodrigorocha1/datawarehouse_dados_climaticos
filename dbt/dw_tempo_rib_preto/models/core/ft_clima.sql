@@ -18,7 +18,7 @@ WITH base AS (
         stg.VELOCIDADE_VENTO,
         stg.ANGULO_VENTO
     FROM {{ source('stg_dw_tempo', 'STG_DADOS_TEMPO') }} stg
-    LEFT JOIN {{ source('dw_tempo', 'DIM_CIDADE') }} cidade
+    INNER JOIN {{ source('dw_tempo', 'DIM_CIDADE') }} cidade
         ON stg.ID_CIDADE = cidade.ID_CIDADE
 )
 
