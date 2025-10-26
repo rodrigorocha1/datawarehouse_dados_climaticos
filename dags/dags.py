@@ -10,9 +10,16 @@ from airflow.utils.session import provide_session
 from airflow.utils.task_group import TaskGroup
 from airflow.utils.trigger_rule import TriggerRule
 from unidecode import unidecode
-
+from airflow.providers.ssh.hooks.ssh import SSHHook
+from airflow.providers.ssh.operators.ssh import SSHOperator
 from src.config.config import Config
+from datetime import timedelta
 
+ssh_hook = SSHHook(
+    remote_host="172.40.0.22",
+    username="root",
+    password="root"
+)
 
 @provide_session
 def clear_xcom(session=None, **kwargs):
@@ -106,10 +113,14 @@ with DAG(
         catchup=False,
         tags=["example"],
 ) as dag:
+
+
     inicio_dag = EmptyOperator(
         task_id='inicio_dag',
         trigger_rule='all_success'
     )
+
+
 
     with TaskGroup('task_testar_conexoes') as tg_con:
         lista_task_conexoes = []
@@ -220,18 +231,32 @@ with DAG(
         dag=dag
     )
 
+    ssh_dbt_alimentar_dw = SSHOperator(
+        task_id="id_ssh_dbt_alimentar_dw",
+        ssh_hook=ssh_hook,
+        command=(
+            "DBT_PROFILES_DIR=/usr/app/dbt "
+            "dbt run "
+            "--project-dir /usr/app/dbt/dw_tempo_rib_preto "
+        ),
+        retries=20,
+        retry_delay=timedelta(minutes=20),
+        cmd_timeout=240,
 
-    # task_apagar_stg = MsSqlOperator(
-    #     task_id='task_apagar_stg',
-    #     mssql_conn_id=Config.ID_BANCO_STG,
-    #     trigger_rule=TriggerRule.ALL_DONE,
-    #
-    #     sql="""
-    #            TRUNCATE TABLE STG_DADOS_TEMPO
-    #         """,
-    #     dag=dag
-    # )
-    #
+    )
+
+
+    task_apagar_stg = MsSqlOperator(
+        task_id='task_apagar_stg',
+        mssql_conn_id=Config.ID_BANCO_STG,
+        trigger_rule=TriggerRule.ALL_DONE,
+
+        sql="""
+               TRUNCATE TABLE STG_DADOS_TEMPO
+            """,
+        dag=dag
+    )
+
 
     @provide_session
     def clear_xcom(session=None, **kwargs):
@@ -273,6 +298,7 @@ with DAG(
         trigger_rule=TriggerRule.ALL_DONE,
     )
 
-    inicio_dag >> tg_con >> tg_mun >> [inserir_logs_task_sucesso, inserir_logs_task_erros]
-    inserir_logs_task_sucesso >> apagar_xcom >> fim_dag
+    inicio_dag >> tg_con >> tg_mun >> [ssh_dbt_alimentar_dw, inserir_logs_task_erros]
+    ssh_dbt_alimentar_dw >> inserir_logs_task_sucesso >> task_apagar_stg
+    task_apagar_stg >> apagar_xcom >> fim_dag
     inserir_logs_task_erros >> apagar_xcom >> fim_dag
