@@ -256,8 +256,9 @@ with DAG(
 
 
     apagar_xcom = PythonOperator(
-        task_id='clear_task',
+        task_id='apagar_xcom',
         python_callable=clear_xcom,
+        trigger_rule=TriggerRule.ALL_DONE,
     )
 
     inicio_dag >> tg_con >> tg_mun >> [inserir_logs_task_sucesso, inserir_logs_task_erros]
