@@ -221,6 +221,18 @@ with DAG(
     )
 
 
+    # task_apagar_stg = MsSqlOperator(
+    #     task_id='task_apagar_stg',
+    #     mssql_conn_id=Config.ID_BANCO_STG,
+    #     trigger_rule=TriggerRule.ALL_DONE,
+    #
+    #     sql="""
+    #            TRUNCATE TABLE STG_DADOS_TEMPO
+    #         """,
+    #     dag=dag
+    # )
+    #
+
     @provide_session
     def clear_xcom(session=None, **kwargs):
         """Task que limpa todos os XComs da DAG run atual"""
