@@ -14,6 +14,40 @@ from unidecode import unidecode
 from src.config.config import Config
 
 
+@provide_session
+def clear_xcom(session=None, **kwargs):
+    """Task que limpa todos os XComs da DAG run atual"""
+    ti = kwargs['ti']
+    dag_id = ti.dag_id
+    run_id = ti.run_id
+
+    # Contar XComs antes
+    before_count = session.query(XCom).filter(
+        XCom.dag_id == dag_id,
+        XCom.run_id == run_id
+    ).count()
+
+    # Apagar todos os XComs dessa DAG Run
+    deleted = session.query(XCom).filter(
+        XCom.dag_id == dag_id,
+        XCom.run_id == run_id
+    ).delete(synchronize_session=False)
+
+    session.commit()
+
+    # Contar XComs depois
+    after_count = session.query(XCom).filter(
+        XCom.dag_id == dag_id,
+        XCom.run_id == run_id
+    ).count()
+
+    print(
+        f"[CLEAR XCOM] DAG '{dag_id}', Run '{run_id}' — "
+        f"Removidos {deleted} XCom(s). "
+        f"Antes: {before_count}, Depois: {after_count}"
+    )
+
+
 def processo_etl_stg(cidade: str, **kwargs: Any):
     from src.etl_tempo import EtlTempo
     from src.servicos.api_tempo.tempo_api import TempoApi
@@ -221,6 +255,11 @@ with DAG(
         )
 
 
+    apagar_xcom = PythonOperator(
+        task_id='clear_task',
+        python_callable=clear_xcom,
+    )
+
     inicio_dag >> tg_con >> tg_mun >> [inserir_logs_task_sucesso, inserir_logs_task_erros]
-    inserir_logs_task_sucesso >> fim_dag
-    inserir_logs_task_erros >> fim_dag
+    inserir_logs_task_sucesso >> apagar_xcom >> fim_dag
+    inserir_logs_task_erros >> apagar_xcom >> fim_dag
