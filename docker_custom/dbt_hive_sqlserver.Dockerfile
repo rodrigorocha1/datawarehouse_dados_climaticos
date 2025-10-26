@@ -1,31 +1,29 @@
-# Imagem base do dbt-core
 FROM ghcr.io/dbt-labs/dbt-core:1.10.0b2
 
-LABEL maintainer="Rodrigo Rocha <rodrigo@example.com>"
-LABEL description="Imagem personalizada do dbt-core com suporte a SQL Server (ODBC Driver 18)"
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/Sao_Paulo
 
-# Instalar dependências e ODBC Driver 18
-USER root
+# Instalar dependências do sistema
+RUN apt-get update && apt-get install -y \
+        curl \
+        gnupg2 \
+        apt-transport-https \
+        lsb-release \
+        ca-certificates \
+        unixodbc-dev \
+        software-properties-common \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y curl gnupg2 apt-transport-https && \
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/debian/12/prod.list -o /etc/apt/sources.list.d/mssql-release.list && \
-    apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql18 unixodbc-dev && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+# Adicionar repositório Microsoft e instalar ODBC Driver 18
+RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/microsoft.gpg \
+    && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/debian/12/prod bookworm main" \
+       > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update \
+    && ACCEPT_EULA=Y apt-get install -y msodbcsql18 \
+    && rm -rf /var/lib/apt/lists/*
 
-# Instalar o adaptador dbt-sqlserver
-RUN pip install --no-cache-dir dbt-sqlserver==1.9.0
+# Instalar dbt-sqlserver
+RUN python -m pip install --no-cache-dir dbt-sqlserver
 
-# Diretório de trabalho do projeto dbt
 WORKDIR /usr/app/dbt
-
-
-
-# Ajustar permissões
-RUN chmod -R 755 /usr/app/dbt
-
-# Usuário padrão
-USER dbt
-
-# Comando padrão
-ENTRYPOINT ["dbt"]
+ENTRYPOINT ["/bin/sh"]

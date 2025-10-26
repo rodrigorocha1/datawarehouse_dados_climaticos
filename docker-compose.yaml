@@ -47,7 +47,7 @@
 x-airflow-common:
   &airflow-common
   # In order to add custom dependencies or upgrade provider packages you can use your extended image.
-  # Comment the image line, place your Dockerfile in the directory where you placed the docker-compose.yaml
+  # Comment the image line, place your airflow_sql_server.Dockerfile in the directory where you placed the docker-compose.yaml
   # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
   image: airflow-custom:2.10.4
   # build: .
@@ -348,7 +348,7 @@ services:
 
 
   dbt_dw:
-    image: ghcr.io/dbt-labs/dbt-core:1.10.0b2
+    image: dbt_hive_sqlserver
     container_name: dbt_hive
     environment:
       TZ: "America/Sao_Paulo"
