@@ -5,7 +5,8 @@ CREATE TABLE STG_DADOS_TEMPO (
     PRESSAO DECIMAL(7, 2),       -- ex: permite valores até 99999.99
     UMIDADE SMALLINT,
     VELOCIDADE_VENTO DECIMAL(5,2),  -- ex: até 999.99
-    ANGULO_VENTO DECIMAL(5,2)       -- ex: até 999.99
+    ANGULO_VENTO DECIMAL(5,2),       -- ex: até 999.99
+    DATA_CONSUTA DATETIME
 );
 
 select GETDATE()

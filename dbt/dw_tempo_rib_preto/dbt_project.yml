@@ -1,0 +1,25 @@
+name: 'dw_tempo_rib_preto'
+version: '1.0.0'
+
+profile: 'dw_tempo_rib_preto'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  dw_tempo_rib_preto:
+    stg:
+      +materialized: table
+      +database: STG_DW_TEMPO   # nome da database de staging
+      +schema: dbo              # schema interno do SQL Server
+    core:
+      +materialized: table
+      +database: DW_TEMPO       # nome da database final do DW

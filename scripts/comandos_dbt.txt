@@ -1,0 +1,6 @@
+docker exec -it dbt_hive dbt run --project-dir /usr/app/dbt/dw_tempo_rib_preto
+docker exec -it dbt_hive dbt test --select dim_cidade_nome_unico --project-dir /usr/app/dbt/dw_tempo_rib_preto
+
+
+
+--vars '{"stg_database": "STG_DW_TEMPO"}'

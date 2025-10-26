@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: stg_dw_tempo
+    database: STG_DW_TEMPO
+    schema: dbo
+    tables:
+      - name: STG_DADOS_TEMPO

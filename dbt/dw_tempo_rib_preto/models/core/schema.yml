@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: dim_cidade
+    description: "Dimensão de cidades"
+    columns:
+      - name: ID_CIDADE
+        description: "Identificador único da cidade"
+        tests:
+          - not_null
+          - unique
+      - name: NOME
+        description: "Nome da cidade"
+        tests:
+          - not_null
