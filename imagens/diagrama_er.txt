@@ -1,0 +1,37 @@
+Table DIM_CIDADE {
+  ID_CIDADE int [pk, not null]
+  NOME_CIDADE nvarchar(255)
+}
+
+Table DIM_CALENDARIO {
+  DATA_CALENDARIO date [not null]
+  HORA time [not null]
+  ANO int
+  MES int
+  DIA int
+  TRIMESTRE int
+  SEMANA_DO_ANO int
+  DIA_DA_SEMANA int
+  NOME_MES varchar(20)
+  NOME_DIA_SEMANA varchar(20)
+  ANO_MES varchar(7)
+  TURNO varchar(20)
+  indexes {
+    (DATA_CALENDARIO, HORA) [pk]
+  }
+}
+
+Table FT_CLIMA {
+  ID_CIDADE int [not null]
+  DATA_CONSULTA date [not null]
+  HORA_CONSULTA time [not null]
+  TEMPERATURA decimal(5,2)
+  PRESSAO decimal(7,2)
+  UMIDADE smallint
+  VELOCIDADE_VENTO decimal(5,2)
+  ANGULO_VENTO decimal(5,2)
+  NOME_CIDADE nvarchar(255)
+}
+
+Ref: DIM_CIDADE.ID_CIDADE < FT_CLIMA.ID_CIDADE  // 1:N — Uma cidade possui várias medições de clima
+Ref: DIM_CALENDARIO.(DATA_CALENDARIO, HORA) < FT_CLIMA.(DATA_CONSULTA, HORA_CONSULTA)  // 1:N — Um instante de tempo possui várias medições de clima
