@@ -16,4 +16,3 @@ class IOperacaoBanco(ABC):
         :rtype:
         """
         pass
-

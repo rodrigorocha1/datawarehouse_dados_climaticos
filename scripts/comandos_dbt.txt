@@ -2,5 +2,978 @@ docker exec -it dbt_hive dbt run --project-dir /usr/app/dbt/dw_tempo_rib_preto
 docker exec -it dbt_hive dbt test --select dim_cidade_nome_unico --project-dir /usr/app/dbt/dw_tempo_rib_preto
 
 
+https://chatgpt.com/c/68fe8f74-8748-8332-8d13-db4c8cc0df86
+
 
 --vars '{"stg_database": "STG_DW_TEMPO"}'
+
+3e3e84bf497e
+ ▶ Log message source details
+[2025-10-26, 19:21:30 -03] {local_task_job_runner.py:123} ▶ Pre task execution logs
+[2025-10-26, 19:21:31 -03] {sql.py:278} INFO - Executing: 
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Ribeir%C3%A3o+Preto%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.8103, "lat": -21.1775}, "weather": [{"id": 800, "main": "Clear", "description": "céu limpo", "icon": "01n"}], "base": "stations", "main": {"temp": 30, "feels_like": 28.5, "temp_min": 30, "temp_max": 30, "pressure": 1010, "humidity": 26, "sea_level": 1010, "grnd_level": 939}, "visibility": 10000, "wind": {"speed": 1.54, "deg": 90}, "clouds": {"all": 0}, "dt": 1761516905, "sys": {"type": 1, "id": 8428, "country": "BR", "sunrise": 1761467497, "sunset": 1761513510}, "timezone": -10800, "id": 3451328, "name": "Ribeirão Preto", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Cravinhos%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.7294, "lat": -21.3403}, "weather": [{"id": 803, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 28.4, "feels_like": 27.18, "temp_min": 28.4, "temp_max": 28.4, "pressure": 1010, "humidity": 25, "sea_level": 1010, "grnd_level": 937}, "visibility": 10000, "wind": {"speed": 1.49, "deg": 229, "gust": 2.59}, "clouds": {"all": 82}, "dt": 1761517146, "sys": {"type": 1, "id": 8428, "country": "BR", "sunrise": 1761467467, "sunset": 1761513501}, "timezone": -10800, "id": 3465209, "name": "Cravinhos", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Altin%C3%B3polis%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.3739, "lat": -21.0256}, "weather": [{"id": 802, "main": "Clouds", "description": "nuvens dispersas", "icon": "03n"}], "base": "stations", "main": {"temp": 26.81, "feels_like": 26.09, "temp_min": 26.81, "temp_max": 26.81, "pressure": 1010, "humidity": 24, "sea_level": 1010, "grnd_level": 921}, "visibility": 10000, "wind": {"speed": 1.96, "deg": 67, "gust": 1.87}, "clouds": {"all": 50}, "dt": 1761517145, "sys": {"country": "BR", "sunrise": 1761467402, "sunset": 1761513396}, "timezone": -10800, "id": 3472485, "name": "Altinópolis", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Barrinha%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -48.1639, "lat": -21.1936}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 29.64, "feels_like": 28.14, "temp_min": 29.64, "temp_max": 29.64, "pressure": 1009, "humidity": 25, "sea_level": 1009, "grnd_level": 944}, "visibility": 10000, "wind": {"speed": 1.84, "deg": 237, "gust": 2.27}, "clouds": {"all": 95}, "dt": 1761517146, "sys": {"country": "BR", "sunrise": 1761467581, "sunset": 1761513596}, "timezone": -10800, "id": 3470428, "name": "Barrinha", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Batatais%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.585, "lat": -20.8911}, "weather": [{"id": 803, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 28.39, "feels_like": 27.1, "temp_min": 28.39, "temp_max": 28.39, "pressure": 1010, "humidity": 23, "sea_level": 1010, "grnd_level": 924}, "visibility": 10000, "wind": {"speed": 1.41, "deg": 312, "gust": 1.29}, "clouds": {"all": 73}, "dt": 1761516910, "sys": {"country": "BR", "sunrise": 1761467461, "sunset": 1761513438}, "timezone": -10800, "id": 3470324, "name": "Batatais", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Cajuru%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.3042, "lat": -21.2753}, "weather": [{"id": 803, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 27.5, "feels_like": 26.52, "temp_min": 27.5, "temp_max": 27.5, "pressure": 1009, "humidity": 24, "sea_level": 1009, "grnd_level": 923}, "visibility": 10000, "wind": {"speed": 2.46, "deg": 71, "gust": 2.38}, "clouds": {"all": 77}, "dt": 1761517146, "sys": {"country": "BR", "sunrise": 1761467369, "sunset": 1761513395}, "timezone": -10800, "id": 3468121, "name": "Cajuru", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Dumont%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -73.9968, "lat": 40.9407}, "weather": [{"id": 800, "main": "Clear", "description": "céu limpo", "icon": "01n"}], "base": "stations", "main": {"temp": 12.34, "feels_like": 10.86, "temp_min": 10.55, "temp_max": 13.94, "pressure": 1026, "humidity": 47, "sea_level": 1026, "grnd_level": 1021}, "visibility": 10000, "wind": {"speed": 1.54, "deg": 60}, "clouds": {"all": 0}, "dt": 1761517105, "sys": {"type": 2, "id": 2008509, "country": "US", "sunrise": 1761477589, "sunset": 1761515987}, "timezone": -14400, "id": 5097357, "name": "Dumont", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Guatapar%C3%A1%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.9833, "lat": -21.4833}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 29.28, "feels_like": 27.85, "temp_min": 29.28, "temp_max": 29.28, "pressure": 1009, "humidity": 25, "sea_level": 1009, "grnd_level": 945}, "visibility": 10000, "wind": {"speed": 1.74, "deg": 244, "gust": 3.32}, "clouds": {"all": 97}, "dt": 1761517145, "sys": {"country": "BR", "sunrise": 1761467519, "sunset": 1761513571}, "timezone": -10800, "id": 3461782, "name": "Guatapará", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Jaboticabal%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -48.3222, "lat": -21.2547}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 29.11, "feels_like": 27.71, "temp_min": 29.11, "temp_max": 29.11, "pressure": 1009, "humidity": 25, "sea_level": 1009, "grnd_level": 942}, "visibility": 10000, "wind": {"speed": 1.49, "deg": 236, "gust": 1.38}, "clouds": {"all": 100}, "dt": 1761517146, "sys": {"country": "BR", "sunrise": 1761467615, "sunset": 1761513638}, "timezone": -10800, "id": 3460441, "name": "Jaboticabal", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Jardin%C3%B3polis%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.7639, "lat": -21.0178}, "weather": [{"id": 800, "main": "Clear", "description": "céu limpo", "icon": "01n"}], "base": "stations", "main": {"temp": 29.68, "feels_like": 28.22, "temp_min": 29.68, "temp_max": 29.68, "pressure": 1010, "humidity": 26, "sea_level": 1010, "grnd_level": 938}, "visibility": 10000, "wind": {"speed": 1.54, "deg": 90}, "clouds": {"all": 0}, "dt": 1761516883, "sys": {"type": 1, "id": 8428, "country": "BR", "sunrise": 1761467496, "sunset": 1761513489}, "timezone": -10800, "id": 3460071, "name": "Jardinópolis", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Lu%C3%ADs+Ant%C3%B4nio%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.7034, "lat": -21.5525}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 28.9, "feels_like": 27.55, "temp_min": 28.9, "temp_max": 28.9, "pressure": 1010, "humidity": 25, "sea_level": 1010, "grnd_level": 935}, "visibility": 10000, "wind": {"speed": 1.11, "deg": 164, "gust": 0.74}, "clouds": {"all": 92}, "dt": 1761516885, "sys": {"country": "BR", "sunrise": 1761467447, "sunset": 1761513508}, "timezone": -10800, "id": 3465209, "name": "Luís Antônio", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Monte+Alto%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -48.4964, "lat": -21.2611}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 28.75, "feels_like": 27.4, "temp_min": 28.75, "temp_max": 28.75, "pressure": 1008, "humidity": 24, "sea_level": 1008, "grnd_level": 940}, "visibility": 10000, "wind": {"speed": 0.72, "deg": 261, "gust": 0.79}, "clouds": {"all": 100}, "dt": 1761517150, "sys": {"country": "BR", "sunrise": 1761467656, "sunset": 1761513680}, "timezone": -10800, "id": 3456873, "name": "Monte Alto", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Morro+Agudo%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -48.0578, "lat": -20.7314}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 29.74, "feels_like": 28.18, "temp_min": 29.74, "temp_max": 29.74, "pressure": 1009, "humidity": 24, "sea_level": 1009, "grnd_level": 942}, "visibility": 10000, "wind": {"speed": 1.02, "deg": 215, "gust": 1}, "clouds": {"all": 100}, "dt": 1761517150, "sys": {"country": "BR", "sunrise": 1761467584, "sunset": 1761513542}, "timezone": -10800, "id": 3456724, "name": "Morro Agudo", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'NULL',
+                   NULL,
+                   'NULL',
+                   'NULL'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'NULL',
+                   NULL,
+                   'NULL',
+                   'NULL'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'NULL',
+                   NULL,
+                   'NULL',
+                   'NULL'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Sales+Oliveira%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.8381, "lat": -20.7719}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 29.57, "feels_like": 28.04, "temp_min": 29.57, "temp_max": 29.57, "pressure": 1009, "humidity": 24, "sea_level": 1009, "grnd_level": 932}, "visibility": 10000, "wind": {"speed": 1.36, "deg": 267, "gust": 1.61}, "clouds": {"all": 92}, "dt": 1761517145, "sys": {"country": "BR", "sunrise": 1761467529, "sunset": 1761513491}, "timezone": -10800, "id": 3450720, "name": "Sales Oliveira", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=S%C3%A3o+Sim%C3%A3o%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.5508, "lat": -21.4792}, "weather": [{"id": 803, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 27.4, "feels_like": 26.49, "temp_min": 27.4, "temp_max": 27.4, "pressure": 1010, "humidity": 25, "sea_level": 1010, "grnd_level": 931}, "visibility": 10000, "wind": {"speed": 1.49, "deg": 173, "gust": 1.46}, "clouds": {"all": 76}, "dt": 1761517146, "sys": {"country": "BR", "sunrise": 1761467416, "sunset": 1761513467}, "timezone": -10800, "id": 3448197, "name": "São Simão", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Santa+Rita+do+Passa+Quatro%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.4781, "lat": -21.7103}, "weather": [{"id": 803, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 27.91, "feels_like": 26.83, "temp_min": 27.91, "temp_max": 27.91, "pressure": 1009, "humidity": 25, "sea_level": 1009, "grnd_level": 934}, "visibility": 10000, "wind": {"speed": 2.1, "deg": 147, "gust": 2.04}, "clouds": {"all": 60}, "dt": 1761517146, "sys": {"country": "BR", "sunrise": 1761467383, "sunset": 1761513464}, "timezone": -10800, "id": 3449851, "name": "Santa Rita do Passa Quatro", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+[2025-10-26, 19:21:31 -03] {base.py:84} INFO - Retrieving connection 'ID_SQL_SERVER_LOG'
+[2025-10-26, 19:21:31 -03] {base.py:84} INFO - Retrieving connection 'ID_SQL_SERVER_LOG'
+[2025-10-26, 19:21:31 -03] {sql.py:553} INFO - Running statement: 
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Ribeir%C3%A3o+Preto%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.8103, "lat": -21.1775}, "weather": [{"id": 800, "main": "Clear", "description": "céu limpo", "icon": "01n"}], "base": "stations", "main": {"temp": 30, "feels_like": 28.5, "temp_min": 30, "temp_max": 30, "pressure": 1010, "humidity": 26, "sea_level": 1010, "grnd_level": 939}, "visibility": 10000, "wind": {"speed": 1.54, "deg": 90}, "clouds": {"all": 0}, "dt": 1761516905, "sys": {"type": 1, "id": 8428, "country": "BR", "sunrise": 1761467497, "sunset": 1761513510}, "timezone": -10800, "id": 3451328, "name": "Ribeirão Preto", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Cravinhos%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.7294, "lat": -21.3403}, "weather": [{"id": 803, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 28.4, "feels_like": 27.18, "temp_min": 28.4, "temp_max": 28.4, "pressure": 1010, "humidity": 25, "sea_level": 1010, "grnd_level": 937}, "visibility": 10000, "wind": {"speed": 1.49, "deg": 229, "gust": 2.59}, "clouds": {"all": 82}, "dt": 1761517146, "sys": {"type": 1, "id": 8428, "country": "BR", "sunrise": 1761467467, "sunset": 1761513501}, "timezone": -10800, "id": 3465209, "name": "Cravinhos", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Altin%C3%B3polis%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.3739, "lat": -21.0256}, "weather": [{"id": 802, "main": "Clouds", "description": "nuvens dispersas", "icon": "03n"}], "base": "stations", "main": {"temp": 26.81, "feels_like": 26.09, "temp_min": 26.81, "temp_max": 26.81, "pressure": 1010, "humidity": 24, "sea_level": 1010, "grnd_level": 921}, "visibility": 10000, "wind": {"speed": 1.96, "deg": 67, "gust": 1.87}, "clouds": {"all": 50}, "dt": 1761517145, "sys": {"country": "BR", "sunrise": 1761467402, "sunset": 1761513396}, "timezone": -10800, "id": 3472485, "name": "Altinópolis", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Barrinha%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -48.1639, "lat": -21.1936}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 29.64, "feels_like": 28.14, "temp_min": 29.64, "temp_max": 29.64, "pressure": 1009, "humidity": 25, "sea_level": 1009, "grnd_level": 944}, "visibility": 10000, "wind": {"speed": 1.84, "deg": 237, "gust": 2.27}, "clouds": {"all": 95}, "dt": 1761517146, "sys": {"country": "BR", "sunrise": 1761467581, "sunset": 1761513596}, "timezone": -10800, "id": 3470428, "name": "Barrinha", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Batatais%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.585, "lat": -20.8911}, "weather": [{"id": 803, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 28.39, "feels_like": 27.1, "temp_min": 28.39, "temp_max": 28.39, "pressure": 1010, "humidity": 23, "sea_level": 1010, "grnd_level": 924}, "visibility": 10000, "wind": {"speed": 1.41, "deg": 312, "gust": 1.29}, "clouds": {"all": 73}, "dt": 1761516910, "sys": {"country": "BR", "sunrise": 1761467461, "sunset": 1761513438}, "timezone": -10800, "id": 3470324, "name": "Batatais", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Cajuru%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.3042, "lat": -21.2753}, "weather": [{"id": 803, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 27.5, "feels_like": 26.52, "temp_min": 27.5, "temp_max": 27.5, "pressure": 1009, "humidity": 24, "sea_level": 1009, "grnd_level": 923}, "visibility": 10000, "wind": {"speed": 2.46, "deg": 71, "gust": 2.38}, "clouds": {"all": 77}, "dt": 1761517146, "sys": {"country": "BR", "sunrise": 1761467369, "sunset": 1761513395}, "timezone": -10800, "id": 3468121, "name": "Cajuru", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Dumont%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -73.9968, "lat": 40.9407}, "weather": [{"id": 800, "main": "Clear", "description": "céu limpo", "icon": "01n"}], "base": "stations", "main": {"temp": 12.34, "feels_like": 10.86, "temp_min": 10.55, "temp_max": 13.94, "pressure": 1026, "humidity": 47, "sea_level": 1026, "grnd_level": 1021}, "visibility": 10000, "wind": {"speed": 1.54, "deg": 60}, "clouds": {"all": 0}, "dt": 1761517105, "sys": {"type": 2, "id": 2008509, "country": "US", "sunrise": 1761477589, "sunset": 1761515987}, "timezone": -14400, "id": 5097357, "name": "Dumont", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Guatapar%C3%A1%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.9833, "lat": -21.4833}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 29.28, "feels_like": 27.85, "temp_min": 29.28, "temp_max": 29.28, "pressure": 1009, "humidity": 25, "sea_level": 1009, "grnd_level": 945}, "visibility": 10000, "wind": {"speed": 1.74, "deg": 244, "gust": 3.32}, "clouds": {"all": 97}, "dt": 1761517145, "sys": {"country": "BR", "sunrise": 1761467519, "sunset": 1761513571}, "timezone": -10800, "id": 3461782, "name": "Guatapará", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Jaboticabal%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -48.3222, "lat": -21.2547}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 29.11, "feels_like": 27.71, "temp_min": 29.11, "temp_max": 29.11, "pressure": 1009, "humidity": 25, "sea_level": 1009, "grnd_level": 942}, "visibility": 10000, "wind": {"speed": 1.49, "deg": 236, "gust": 1.38}, "clouds": {"all": 100}, "dt": 1761517146, "sys": {"country": "BR", "sunrise": 1761467615, "sunset": 1761513638}, "timezone": -10800, "id": 3460441, "name": "Jaboticabal", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Jardin%C3%B3polis%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.7639, "lat": -21.0178}, "weather": [{"id": 800, "main": "Clear", "description": "céu limpo", "icon": "01n"}], "base": "stations", "main": {"temp": 29.68, "feels_like": 28.22, "temp_min": 29.68, "temp_max": 29.68, "pressure": 1010, "humidity": 26, "sea_level": 1010, "grnd_level": 938}, "visibility": 10000, "wind": {"speed": 1.54, "deg": 90}, "clouds": {"all": 0}, "dt": 1761516883, "sys": {"type": 1, "id": 8428, "country": "BR", "sunrise": 1761467496, "sunset": 1761513489}, "timezone": -10800, "id": 3460071, "name": "Jardinópolis", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Lu%C3%ADs+Ant%C3%B4nio%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.7034, "lat": -21.5525}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 28.9, "feels_like": 27.55, "temp_min": 28.9, "temp_max": 28.9, "pressure": 1010, "humidity": 25, "sea_level": 1010, "grnd_level": 935}, "visibility": 10000, "wind": {"speed": 1.11, "deg": 164, "gust": 0.74}, "clouds": {"all": 92}, "dt": 1761516885, "sys": {"country": "BR", "sunrise": 1761467447, "sunset": 1761513508}, "timezone": -10800, "id": 3465209, "name": "Luís Antônio", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Monte+Alto%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -48.4964, "lat": -21.2611}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 28.75, "feels_like": 27.4, "temp_min": 28.75, "temp_max": 28.75, "pressure": 1008, "humidity": 24, "sea_level": 1008, "grnd_level": 940}, "visibility": 10000, "wind": {"speed": 0.72, "deg": 261, "gust": 0.79}, "clouds": {"all": 100}, "dt": 1761517150, "sys": {"country": "BR", "sunrise": 1761467656, "sunset": 1761513680}, "timezone": -10800, "id": 3456873, "name": "Monte Alto", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Morro+Agudo%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -48.0578, "lat": -20.7314}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 29.74, "feels_like": 28.18, "temp_min": 29.74, "temp_max": 29.74, "pressure": 1009, "humidity": 24, "sea_level": 1009, "grnd_level": 942}, "visibility": 10000, "wind": {"speed": 1.02, "deg": 215, "gust": 1}, "clouds": {"all": 100}, "dt": 1761517150, "sys": {"country": "BR", "sunrise": 1761467584, "sunset": 1761513542}, "timezone": -10800, "id": 3456724, "name": "Morro Agudo", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'NULL',
+                   NULL,
+                   'NULL',
+                   'NULL'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'NULL',
+                   NULL,
+                   'NULL',
+                   'NULL'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'NULL',
+                   NULL,
+                   'NULL',
+                   'NULL'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Sales+Oliveira%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.8381, "lat": -20.7719}, "weather": [{"id": 804, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 29.57, "feels_like": 28.04, "temp_min": 29.57, "temp_max": 29.57, "pressure": 1009, "humidity": 24, "sea_level": 1009, "grnd_level": 932}, "visibility": 10000, "wind": {"speed": 1.36, "deg": 267, "gust": 1.61}, "clouds": {"all": 92}, "dt": 1761517145, "sys": {"country": "BR", "sunrise": 1761467529, "sunset": 1761513491}, "timezone": -10800, "id": 3450720, "name": "Sales Oliveira", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=S%C3%A3o+Sim%C3%A3o%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.5508, "lat": -21.4792}, "weather": [{"id": 803, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 27.4, "feels_like": 26.49, "temp_min": 27.4, "temp_max": 27.4, "pressure": 1010, "humidity": 25, "sea_level": 1010, "grnd_level": 931}, "visibility": 10000, "wind": {"speed": 1.49, "deg": 173, "gust": 1.46}, "clouds": {"all": 76}, "dt": 1761517146, "sys": {"country": "BR", "sunrise": 1761467416, "sunset": 1761513467}, "timezone": -10800, "id": 3448197, "name": "São Simão", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+               
+               INSERT INTO dbo.LogOperacoesBanco (
+                   Consulta,
+                   Nome,
+                   NomeArquivo,
+                   Funcao,
+                   NumeroLinha,
+                   url,
+                   Codigo,
+                   JsonRetorno,
+                   Mensagem,
+                   NIVEL_LOG
+               )
+               VALUES (
+                   NULL,
+                   'tempo_api.py',
+                   'TempoApi.buscar_dados_tempo',
+                   43,
+                   'https://api.openweathermap.org/data/2.5/weather/data/2.5/weather?appid=9c2080633e0fb909505abc4da0d94e7a&units=metric&lang=pt_br&q=Santa+Rita+do+Passa+Quatro%2C+BR%2C+BR',
+                   200,
+                   '{"coord": {"lon": -47.4781, "lat": -21.7103}, "weather": [{"id": 803, "main": "Clouds", "description": "nublado", "icon": "04n"}], "base": "stations", "main": {"temp": 27.91, "feels_like": 26.83, "temp_min": 27.91, "temp_max": 27.91, "pressure": 1009, "humidity": 25, "sea_level": 1009, "grnd_level": 934}, "visibility": 10000, "wind": {"speed": 2.1, "deg": 147, "gust": 2.04}, "clouds": {"all": 60}, "dt": 1761517146, "sys": {"country": "BR", "sunrise": 1761467383, "sunset": 1761513464}, "timezone": -10800, "id": 3449851, "name": "Santa Rita do Passa Quatro", "cod": 200}',
+                   'Sucesso ao Conectar na API',
+                   'INFO'
+               );
+           
+           , parameters: None
+[2025-10-26, 19:21:31 -03] {taskinstance.py:3311} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "src/pymssql/_pymssql.pyx", line 447, in pymssql._pymssql.Cursor.execute
+  File "src/pymssql/_mssql.pyx", line 1125, in pymssql._mssql.MSSQLConnection.execute_query
+  File "src/pymssql/_mssql.pyx", line 1157, in pymssql._mssql.MSSQLConnection.execute_query
+  File "src/pymssql/_mssql.pyx", line 1379, in pymssql._mssql.MSSQLConnection.get_result
+  File "src/pymssql/_mssql.pyx", line 1855, in pymssql._mssql.check_cancel_and_raise
+  File "src/pymssql/_mssql.pyx", line 1901, in pymssql._mssql.raise_MSSQLDatabaseException
+pymssql._mssql.MSSQLDatabaseException: (547, b'The INSERT statement conflicted with the CHECK constraint "CHK_NIVEL_LOG". The conflict occurred in database "LOG_DW", table "dbo.LogOperacoesBanco", column \'NIVEL_LOG\'.DB-Lib error message 20018, severity 16:\nGeneral SQL Server error: Check messages from the SQL Server\nDB-Lib error message 20018, severity 16:\nGeneral SQL Server error: Check messages from the SQL Server\nDB-Lib error message 20018, severity 16:\nGeneral SQL Server error: Check messages from the SQL Server\n')
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 422, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 284, in execute
+    output = hook.run(
+             ^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 498, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/hooks/sql.py", line 558, in _run_command
+    cur.execute(sql_statement)
+  File "src/pymssql/_pymssql.pyx", line 464, in pymssql._pymssql.Cursor.execute
+pymssql.exceptions.IntegrityError: (547, b'The INSERT statement conflicted with the CHECK constraint "CHK_NIVEL_LOG". The conflict occurred in database "LOG_DW", table "dbo.LogOperacoesBanco", column \'NIVEL_LOG\'.DB-Lib error message 20018, severity 16:\nGeneral SQL Server error: Check messages from the SQL Server\nDB-Lib error message 20018, severity 16:\nGeneral SQL Server error: Check messages from the SQL Server\nDB-Lib error message 20018, severity 16:\nGeneral SQL Server error: Check messages from the SQL Server\n')
+[2025-10-26, 19:21:31 -03] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=dag_monitoramento_tempo_dw, task_id=inserir_logs_sucesso, run_id=manual__2025-10-26T22:21:20.645945+00:00, execution_date=20251026T222120, start_date=20251026T222130, end_date=20251026T222131
+[2025-10-26, 19:21:31 -03] {taskinstance.py:340} ▶ Post task execution logs
