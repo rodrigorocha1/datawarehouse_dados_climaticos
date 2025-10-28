@@ -5,6 +5,13 @@ __pycache__/
 
 # C extensions
 *.so
+postgres-db-volume/
+sql_data/
+*.xml
+*.cfg
+
+*#
+logs/*
 
 # Distribution / packaging
 .Python
@@ -205,3 +212,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+/dbt/dw_tempo_rib_preto/package-lock.yml
+/dbt/logs/dbt.log.1
+/imagens/edrawmax_full5371.deb
