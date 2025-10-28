@@ -1,15 +1,3 @@
----
-layout: post
-title:  "Criação de um datawarehouse para os municípios da região de Ribeirão Preto"
-summary: "O objetivo desse projeto é propor uma arquiterura de datawarehouse, usado dados climáticos dos municípios da região de Ribeirão Preto, além de explorar as métricas técnicas de desempenho do datawarehouse.."
-author: Rodrigo
-date: '2025-10-24 22:54:00 -0300'
-category: ['python', 'apache_airflow', 'sql_server', 'etl', 'datawarehouse']
-thumbnail: /assets/img/posts/datawarehouse_clima_rp/thumb.png
-keywords: python, Apache Airflow, datawarehouse, sql_server, etl 
-usemathjax: true
-permalink: /blog/datawarehouse_clima_rp
----
 
 
 # Criação de um datawarehouse para os municípios da região de Ribeirão Preto
