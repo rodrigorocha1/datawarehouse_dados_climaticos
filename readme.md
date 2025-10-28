@@ -294,7 +294,7 @@ CREATE TABLE FT_CLIMA (
 
 
 ## 4. Vídeo com a demonstração do projeto 
-[![Assistir ao vídeo de demonstração do projeto](https://img.shields.io/badge/🎬%20Assistir%20ao%20vídeo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/UJc8KMvbApc)
+[![Assistir ao vídeo de demonstração do projeto](https://img.shields.io/badge/🎬%20Assistir%20ao%20vídeo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/Bya17xBQpZ8)
 
 
 
