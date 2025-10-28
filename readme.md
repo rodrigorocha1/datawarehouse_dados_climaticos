@@ -293,16 +293,8 @@ CREATE TABLE FT_CLIMA (
 
 
 
-<div style="text-align:center;"> 
-  <iframe width="800" height="600" 
-    src="https://www.youtube.com/embed/ZSlhMPwnRPY" 
-    title="YouTube video player" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-    allowfullscreen>
-  </iframe>
-</div>
-
+## 4. Vídeo com a demonstração do projeto 
+[![Assistir ao vídeo de demonstração do projeto](https://img.shields.io/badge/🎬%20Assistir%20ao%20vídeo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/UJc8KMvbApc)
 
 
 
